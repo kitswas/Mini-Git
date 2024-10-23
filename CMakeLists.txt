@@ -76,6 +76,6 @@ add_custom_target(
 	VERBATIM
 )
 
-add_subdirectory(src)
+add_subdirectory(src mygit)
 
 target_link_libraries(mygit OpenSSL::SSL OpenSSL::Crypto)
