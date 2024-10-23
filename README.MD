@@ -15,6 +15,12 @@ This project has a [.editorconfig file](https://editorconfig.org/) to enforce pr
 CLion has built-in support,
 VSCode requires [a plugin](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig).
 
+## Installing dependencies
+
+```sh
+sudo apt-get install zlib1g-dev
+```
+
 ## How to run
 
 > [!IMPORTANT]

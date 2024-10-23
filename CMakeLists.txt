@@ -75,7 +75,13 @@ add_custom_target(
 	COMMENT "Generating documentation with Doxygen"
 	VERBATIM
 )
+include(FetchContent)
+FetchContent_Declare(ZStrGitRepo
+  GIT_REPOSITORY    "https://github.com/mateidavid/zstr" # can also be a local filesystem path!
+  GIT_TAG           "master"
+)
+FetchContent_MakeAvailable(ZStrGitRepo) # defines INTERFACE target 'zstr::zstr'
 
 add_subdirectory(src mygit)
 
-target_link_libraries(mygit OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(mygit zstr::zstr OpenSSL::SSL OpenSSL::Crypto)
