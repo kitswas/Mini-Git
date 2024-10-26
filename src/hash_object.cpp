@@ -5,6 +5,7 @@
 #include <openssl/evp.h>
 #include <string>
 #include <unistd.h>
+#include <zstr.hpp> // ZLib C++ wrapper. See https://github.com/mateidavid/zstr
 
 // For getopt()
 extern int opterr;
@@ -122,7 +123,7 @@ int hash_object(int argc, char *argv[])
 			}
 			return EXIT_FAILURE;
 		}
-		std::ofstream file(".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2));
+		zstr::ofstream file(".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2));
 		if (!file.is_open())
 		{
 			std::cerr << "Error: Could not open file " << ".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2) << std::endl;
