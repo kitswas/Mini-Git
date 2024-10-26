@@ -2,8 +2,13 @@
 #include <filesystem>
 #include <fstream>
 
-int init()
+int init(int argc, [[maybe_unused]] char *argv[])
 {
+	if (argc != 1)
+	{
+		std::cerr << "Command usage: init\n";
+		return EXIT_FAILURE;
+	}
 	try
 	{
 		std::filesystem::create_directory(".mygit");

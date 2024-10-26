@@ -14,26 +14,18 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	if (std::string command = argv[1]; command == "init")
+	std::string command = argv[1];
+	// We will remove the first argument
+	argc--;
+	argv++;
+
+	if (command == "init")
 	{
-		return init();
+		return init(argc, argv);
 	}
-	else if (command == "cat-file")
+	else if (command == "hash-object")
 	{
-		if (argc < 4)
-		{
-			std::cerr << "Invalid arguments, `-p <blob_sha>` required.\n";
-			return EXIT_FAILURE;
-		}
-
-		if (const std::string flag = argv[2]; flag != "-p")
-		{
-			std::cerr << "Invalid flag for cat-file, `-p` expected\n";
-			return EXIT_FAILURE;
-		}
-
-		const std::string value = argv[3];
-		return cat_file(value);
+		return hash_object(argc, argv);
 	}
 	else
 	{

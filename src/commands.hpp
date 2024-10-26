@@ -2,5 +2,6 @@
 
 #include <string>
 
-int init();
-int cat_file(const std::string &value);
+int init(int argc, char *argv[]);
+int hash_object(int argc, char *argv[]);
+int cat_file(int argc, char *argv[]);
