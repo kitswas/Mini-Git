@@ -69,6 +69,50 @@ std::string get_file_sha1(const std::string &path)
 	return result;
 }
 
+int store_file_as_blob(const std::string &path, const std::string &sha1)
+{
+	try
+	{
+		std::filesystem::create_directory(".mygit/objects/" + sha1.substr(0, 2));
+	}
+	catch (const std::filesystem::filesystem_error &e)
+	{
+		if (e.code() == std::errc::no_such_file_or_directory)
+		{
+			std::cerr << "Did you forget to run `init`?\n";
+		}
+		else
+		{
+			std::cerr << e.what() << std::endl;
+		}
+		return EXIT_FAILURE;
+	}
+	zstr::ofstream file(".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2));
+	if (!file.is_open())
+	{
+		std::cerr << "Error: Could not open file " << ".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2) << std::endl;
+		return EXIT_FAILURE;
+	}
+
+	std::ifstream input(path, std::ios::binary);
+	if (!input.is_open())
+	{
+		std::cerr << "Error: Could not open file " << path << std::endl;
+		return EXIT_FAILURE;
+	}
+
+	auto file_size = std::filesystem::file_size(path);
+	file << "blob " << file_size << '\0';
+	file << input.rdbuf();
+	return EXIT_SUCCESS;
+}
+
+int store_file_as_blob(const std::string &path)
+{
+	std::string sha1 = get_file_sha1(path);
+	return store_file_as_blob(path, sha1);
+}
+
 int hash_object(int argc, char *argv[])
 {
 	if (argc < 2)
@@ -107,39 +151,7 @@ int hash_object(int argc, char *argv[])
 
 	if (write)
 	{
-		try
-		{
-			std::filesystem::create_directory(".mygit/objects/" + sha1.substr(0, 2));
-		}
-		catch (const std::filesystem::filesystem_error &e)
-		{
-			if (e.code() == std::errc::no_such_file_or_directory)
-			{
-				std::cerr << "Did you forget run `init`?\n";
-			}
-			else
-			{
-				std::cerr << e.what() << std::endl;
-			}
-			return EXIT_FAILURE;
-		}
-		zstr::ofstream file(".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2));
-		if (!file.is_open())
-		{
-			std::cerr << "Error: Could not open file " << ".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2) << std::endl;
-			return EXIT_FAILURE;
-		}
-
-		std::ifstream input(path, std::ios::binary);
-		if (!input.is_open())
-		{
-			std::cerr << "Error: Could not open file " << path << std::endl;
-			return EXIT_FAILURE;
-		}
-
-		auto file_size = std::filesystem::file_size(path);
-		file << "blob " << file_size << '\0';
-		file << input.rdbuf();
+		return store_file_as_blob(path, sha1);
 	}
 
 	return EXIT_SUCCESS;
