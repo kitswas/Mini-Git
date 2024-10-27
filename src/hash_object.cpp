@@ -16,7 +16,7 @@ extern char *optarg;
 /**
  * @brief Takes a file path and returns the SHA1 hash of the file.
  */
-std::string get_sha1(const std::string &path)
+std::string get_file_sha1(const std::string &path)
 {
 	std::ifstream file(path, std::ios::binary);
 	if (!file.is_open())
@@ -102,7 +102,7 @@ int hash_object(int argc, char *argv[])
 	}
 
 	std::string path = argv[optind];
-	std::string sha1 = get_sha1(path);
+	std::string sha1 = get_file_sha1(path);
 	std::cout << sha1 << std::endl;
 
 	if (write)
