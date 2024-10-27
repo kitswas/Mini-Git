@@ -67,7 +67,6 @@ TreeObject TreeObject::create_tree(const std::string &path)
 		{
 			TreeObject subtree = create_tree(entry.path());
 			std::string sha = subtree.write();
-			std::clog << "Subtree " << entry.path().filename() << " has SHA-1 " << sha << '\n';
 			tree.add_entry("40000", entry.path().filename(), sha);
 		}
 		else if (entry.is_regular_file())
