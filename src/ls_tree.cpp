@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
-#include <unordered_map>
+#include "types.hpp"
 #include <zstr.hpp> // ZLib C++ wrapper. See https://github.com/mateidavid/zstr
 
-std::unordered_map<std::string, std::string> type_map = {
+const std::unordered_map<std::string, std::string> type_map = {
 	{"100644", "blob"},
 	{"040000", "tree"},
 	{"120000", "symlink"},
@@ -67,7 +67,7 @@ int ls_tree(int argc, char *argv[])
 				}
 				else
 				{
-					std::cout << mode << ' ' << type_map[mode] << ' ' << sha << '\t' << name << '\n';
+					std::cout << mode << ' ' << type_map.at(mode) << ' ' << sha << '\t' << name << '\n';
 				}
 			}
 		}

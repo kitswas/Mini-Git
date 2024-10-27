@@ -5,6 +5,7 @@ set(SOURCES
 	init.cpp
 	tree.cpp
 	write_tree.cpp
+	ls_tree.cpp
 )
 
 add_executable(mygit ${SOURCES}) 
