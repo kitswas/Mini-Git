@@ -33,9 +33,7 @@ int main(int argc, char *argv[])
 	}
 	else if (command == "ls-tree")
 	{
-		// ls-tree is the same as cat-file -p
-		char *new_argv[] = {argv[0], "-p", argv[1]};
-		return cat_file(3, new_argv);
+		return ls_tree(argc, argv);
 	}
 	else if (command == "write-tree")
 	{
