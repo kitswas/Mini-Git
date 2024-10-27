@@ -115,7 +115,7 @@ std::string TreeObject::write() const
 	std::string treeSha = get_sha1(treeData);
 
 	std::filesystem::create_directory(".mygit/objects/" + treeSha.substr(0, 2));
-	zstr::ofstream treeFile(".mygit/objects/" + treeSha.substr(0, 2) + "/" + treeSha.substr(2));
+	zstr::ofstream treeFile(".mygit/objects/" + treeSha.substr(0, 2) + "/" + treeSha.substr(2), std::ios_base::trunc);
 	if (!treeFile.is_open())
 	{
 		std::cerr << "Failed to open tree object file " << treeSha << " for writing\n";

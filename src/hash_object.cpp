@@ -73,7 +73,7 @@ std::string get_file_sha1(const std::string &path)
 int store_file_as_blob(const std::string &path, const std::string &sha1)
 {
 	std::filesystem::create_directory(".mygit/objects/" + sha1.substr(0, 2));
-	zstr::ofstream file(".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2));
+	zstr::ofstream file(".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2), std::ios_base::trunc);
 	if (!file.is_open())
 	{
 		std::cerr << "Error: Could not open file " << ".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2) << std::endl;
