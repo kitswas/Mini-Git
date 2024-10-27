@@ -67,7 +67,7 @@ TreeObject TreeObject::create_tree(const std::string &path)
 		{
 			TreeObject subtree = create_tree(entry.path());
 			std::string sha = subtree.write();
-			tree.add_entry("40000", entry.path().filename(), sha);
+			tree.add_entry("040000", entry.path().filename(), sha);
 		}
 		else if (entry.is_regular_file())
 		{
@@ -94,15 +94,15 @@ std::vector<char> TreeObject::get_data() const
 		size += entry.mode.size() + 1 + entry.name.size() + 1 + entry.sha.size() + 1;
 	}
 	result.reserve(size);
-	std::string header = std::format("tree {}\0", size);
+	std::string header = std::format("tree {}", size);
 	result.insert(result.begin(), header.begin(), header.end());
-	result.push_back('\0');
+	result.push_back(' ');
 	for (const auto &entry : entries)
 	{
 		result.insert(result.end(), entry.mode.begin(), entry.mode.end());
 		result.push_back(' ');
 		result.insert(result.end(), entry.name.begin(), entry.name.end());
-		result.push_back('\0');
+		result.push_back('\t');
 		result.insert(result.end(), entry.sha.begin(), entry.sha.end());
 		result.push_back('\n');
 	}
