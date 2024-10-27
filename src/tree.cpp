@@ -92,7 +92,7 @@ std::vector<char> TreeObject::get_data() const
 	uintmax_t size = 0;
 	for (const auto &entry : entries)
 	{
-		size += entry.mode.size() + 1 + entry.name.size() + 1 + entry.sha.size();
+		size += entry.mode.size() + 1 + entry.name.size() + 1 + entry.sha.size() + 1;
 	}
 	result.reserve(size);
 	std::string header = std::format("tree {}\0", size);
@@ -105,6 +105,7 @@ std::vector<char> TreeObject::get_data() const
 		result.insert(result.end(), entry.name.begin(), entry.name.end());
 		result.push_back('\0');
 		result.insert(result.end(), entry.sha.begin(), entry.sha.end());
+		result.push_back('\n');
 	}
 	return result;
 }
