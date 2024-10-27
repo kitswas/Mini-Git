@@ -31,6 +31,10 @@ int main(int argc, char *argv[])
 	{
 		return cat_file(argc, argv);
 	}
+	else if (command == "write-tree")
+	{
+		return write_tree(argc, argv);
+	}
 	else
 	{
 		std::cerr << "Unknown command " << command << '\n';

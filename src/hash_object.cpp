@@ -1,3 +1,4 @@
+#include "blob.hpp"
 #include <filesystem>
 #include <format>
 #include <fstream>
@@ -71,22 +72,7 @@ std::string get_file_sha1(const std::string &path)
 
 int store_file_as_blob(const std::string &path, const std::string &sha1)
 {
-	try
-	{
-		std::filesystem::create_directory(".mygit/objects/" + sha1.substr(0, 2));
-	}
-	catch (const std::filesystem::filesystem_error &e)
-	{
-		if (e.code() == std::errc::no_such_file_or_directory)
-		{
-			std::cerr << "Did you forget to run `init`?\n";
-		}
-		else
-		{
-			std::cerr << e.what() << std::endl;
-		}
-		return EXIT_FAILURE;
-	}
+	std::filesystem::create_directory(".mygit/objects/" + sha1.substr(0, 2));
 	zstr::ofstream file(".mygit/objects/" + sha1.substr(0, 2) + "/" + sha1.substr(2));
 	if (!file.is_open())
 	{
@@ -105,12 +91,6 @@ int store_file_as_blob(const std::string &path, const std::string &sha1)
 	file << "blob " << file_size << '\0';
 	file << input.rdbuf();
 	return EXIT_SUCCESS;
-}
-
-int store_file_as_blob(const std::string &path)
-{
-	std::string sha1 = get_file_sha1(path);
-	return store_file_as_blob(path, sha1);
 }
 
 int hash_object(int argc, char *argv[])
@@ -151,7 +131,22 @@ int hash_object(int argc, char *argv[])
 
 	if (write)
 	{
-		return store_file_as_blob(path, sha1);
+		try
+		{
+			return store_file_as_blob(path, sha1);
+		}
+		catch (const std::filesystem::filesystem_error &e)
+		{
+			if (e.code() == std::errc::no_such_file_or_directory)
+			{
+				std::cerr << "Did you forget to run `init`?\n";
+			}
+			else
+			{
+				std::cerr << e.what() << std::endl;
+			}
+			return EXIT_FAILURE;
+		}
 	}
 
 	return EXIT_SUCCESS;
