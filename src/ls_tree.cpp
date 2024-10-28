@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "tree.hpp"
 #include "types.hpp"
 #include <zstr.hpp> // ZLib C++ wrapper. See https://github.com/mateidavid/zstr
 
@@ -40,43 +41,18 @@ int ls_tree(int argc, char *argv[])
 
 	try
 	{
-		zstr::ifstream input(path, std::ofstream::binary);
-
-		if (!input.is_open())
+		TreeObject tree = TreeObject::read(path);
+		for (const auto &entry : tree.get_entries())
 		{
-			std::cerr << "Failed to open object file.\n";
-			return EXIT_FAILURE;
-		}
-
-		std::string type;
-		input >> type;
-		uintmax_t blob_size;
-		input >> blob_size;
-
-		if (type == "tree")
-		{
-			std::string mode;
-			std::string name;
-			std::string sha;
-
-			while (input >> mode >> name >> sha)
+			if (name_only)
 			{
-				if (name_only)
-				{
-					std::cout << name << '\n';
-				}
-				else
-				{
-					std::cout << mode << ' ' << type_map.at(mode) << ' ' << sha << '\t' << name << '\n';
-				}
+				std::cout << entry.name << '\n';
+			}
+			else
+			{
+				std::cout << type_map.at(entry.mode) << ' ' << entry.sha << '\t' << entry.name << '\n';
 			}
 		}
-		else
-		{
-			std::cerr << "Not a tree object\n";
-			return EXIT_FAILURE;
-		}
-		input.close();
 	}
 	catch (...)
 	{
