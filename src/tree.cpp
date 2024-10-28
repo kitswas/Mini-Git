@@ -3,51 +3,9 @@
 #include <format>
 #include <fstream>
 #include <iostream>
-#include <openssl/evp.h>
+#include "sha.hpp"
 #include "tree.hpp"
 #include <zstr.hpp> // ZLib C++ wrapper. See https://github.com/mateidavid/zstr
-
-/**
- * @brief Takes a string and returns the SHA1 hash of the string.
- */
-std::string get_sha1(const std::vector<char> &data)
-{
-	EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
-	if (mdctx == nullptr)
-	{
-		std::cerr << "Error: Could not create EVP_MD_CTX\n";
-		exit(EXIT_FAILURE);
-	}
-
-	if (EVP_DigestInit(mdctx, EVP_sha1()) != 1)
-	{
-		std::cerr << "Error: Could not initialize digest\n";
-		exit(EXIT_FAILURE);
-	}
-
-	if (EVP_DigestUpdate(mdctx, data.data(), data.size()) != 1)
-	{
-		std::cerr << "Error: Could not update digest\n";
-		exit(EXIT_FAILURE);
-	}
-
-	unsigned char hash[EVP_MAX_MD_SIZE];
-	unsigned int hash_len;
-	if (EVP_DigestFinal(mdctx, hash, &hash_len) != 1)
-	{
-		std::cerr << "Error: Could not finalize digest\n";
-		exit(EXIT_FAILURE);
-	}
-
-	std::string result;
-	for (unsigned int i = 0; i < hash_len; i++)
-	{
-		result += std::format("{:02x}", hash[i]);
-	}
-
-	EVP_MD_CTX_free(mdctx);
-	return result;
-}
 
 void TreeObject::add_or_update_entry(const std::string &mode, const std::string &path, const std::string &sha)
 {

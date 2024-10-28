@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include "sha.hpp"
 #include <string>
 #include "tree.hpp"
 #include <zstr.hpp> // ZLib C++ wrapper. See https://github.com/mateidavid/zstr
