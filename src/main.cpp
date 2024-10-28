@@ -39,6 +39,10 @@ int main(int argc, char *argv[])
 	{
 		return write_tree(argc, argv);
 	}
+	else if (command == "add")
+	{
+		return add(argc, argv);
+	}
 	else
 	{
 		std::cerr << "Unknown command " << command << '\n';
