@@ -29,7 +29,7 @@ std::string CommitObject::write() const
 
 	std::string commitSha = get_sha1(std::vector<char>(commitData.begin(), commitData.end()));
 	std::filesystem::create_directory(".mygit/objects/" + commitSha.substr(0, 2));
-	std::ofstream commitFile(".mygit/objects/" + commitSha.substr(0, 2) + "/" + commitSha.substr(2), std::ios_base::trunc);
+	zstr::ofstream commitFile(".mygit/objects/" + commitSha.substr(0, 2) + "/" + commitSha.substr(2), std::ios_base::trunc);
 	if (!commitFile.is_open())
 	{
 		std::cerr << "Failed to open commit object file " << commitSha << " for writing\n";
