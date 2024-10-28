@@ -2,6 +2,7 @@ set(SOURCES
 	main.cpp
 	add.cpp
 	cat_file.cpp
+	commit.cpp
 	hash_object.cpp
 	init.cpp
 	ls_tree.cpp
