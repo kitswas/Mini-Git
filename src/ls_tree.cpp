@@ -34,10 +34,22 @@ int ls_tree(int argc, char *argv[])
 
 	const std::string value = argv[name_only ? 2 : 1];
 
-	const std::string dir_name = value.substr(0, 2);
-	const std::string blob_sha = value.substr(2);
-
-	std::string path = ".mygit/objects/" + dir_name + "/" + blob_sha;
+	std::string path;
+	if (value == "index")
+	{
+		path = ".mygit/index";
+	}
+	else if (value.size() == 40)
+	{
+		const std::string dir_name = value.substr(0, 2);
+		const std::string blob_sha = value.substr(2);
+		path = ".mygit/objects/" + dir_name + "/" + blob_sha;
+	}
+	else
+	{
+		std::cerr << "Invalid SHA-1 value\n";
+		return EXIT_FAILURE;
+	}
 
 	try
 	{
