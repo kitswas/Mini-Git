@@ -60,7 +60,7 @@ int add(int argc, char *argv[])
 		}
 	}
 
-	std::ofstream index_file(".mygit/index", std::ios::trunc);
+	zstr::ofstream index_file(".mygit/index", std::ios::trunc);
 	if (!index_file.is_open())
 	{
 		std::cerr << "Failed to open index file\n";
