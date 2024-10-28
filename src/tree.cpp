@@ -51,7 +51,7 @@ std::string get_sha1(const std::vector<char> &data)
 
 void TreeObject::add_entry(const std::string &mode, const std::string &name, const std::string &sha)
 {
-	entries.emplace_back(mode, name, sha);
+	entries.insert({mode, name, sha});
 }
 
 TreeObject TreeObject::create_tree(const std::string &path)
@@ -107,6 +107,47 @@ std::vector<char> TreeObject::get_data() const
 		result.push_back('\n');
 	}
 	return result;
+}
+
+std::set<TreeObject::Entry> TreeObject::get_entries() const
+{
+	return entries;
+}
+
+TreeObject TreeObject::read(const std::string &file_path)
+{
+	zstr::ifstream input(file_path, std::ios::binary);
+	if (!input.is_open())
+	{
+		std::cerr << "Failed to open tree object file " << file_path << " for reading\n";
+		exit(EXIT_FAILURE);
+	}
+
+	std::string type;
+	input >> type;
+	uintmax_t blob_size;
+	input >> blob_size;
+
+	if (type == "tree")
+	{
+		TreeObject tree;
+
+		std::string mode;
+		std::string name;
+		std::string sha;
+
+		while (input >> mode >> name >> sha)
+		{
+			tree.add_entry(mode, name, sha);
+		}
+		input.close();
+		return tree;
+	}
+	else
+	{
+		input.close();
+		throw std::invalid_argument("Not a tree object");
+	}
 }
 
 std::string TreeObject::write() const

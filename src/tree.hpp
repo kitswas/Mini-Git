@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <set>
 #include <vector>
 
 /**
@@ -26,6 +27,18 @@
 class TreeObject
 {
 public:
+	struct Entry
+	{
+		const std::string mode;
+		const std::string name;
+		const std::string sha;
+		friend constexpr auto operator<=>(const Entry &lhs, const Entry &rhs) noexcept
+		{
+			// Compare the entries based on their names, then SHA-1 hashes
+			return lhs.name <=> rhs.name == 0 ? lhs.sha <=> rhs.sha : lhs.name <=> rhs.name;
+		}
+	};
+
 	/**
 	 * @brief Adds a new entry to the tree object.
 	 *
@@ -49,18 +62,18 @@ public:
 	 */
 	std::vector<char> get_data() const;
 
+	std::set<Entry> get_entries() const;
+
+	/**
+	 * @brief Reads a tree object from the disk.
+	 */
+	static TreeObject read(const std::string &file_path);
+
 	/**
 	 * @brief Writes the tree object to the disk.
 	 */
 	std::string write() const;
 
 private:
-	struct Entry
-	{
-		const std::string mode;
-		const std::string name;
-		const std::string sha;
-	};
-
-	std::vector<Entry> entries;
+	std::set<Entry> entries;
 };
