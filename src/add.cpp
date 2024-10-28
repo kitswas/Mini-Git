@@ -42,13 +42,13 @@ int add(int argc, char *argv[])
 				{
 					std::string sha = get_file_sha1(entry.path());
 					store_file_as_blob(entry.path(), sha);
-					tree.add_entry("100644", entry.path(), sha);
+					tree.add_or_update_entry("100644", entry.path(), sha);
 				}
 				else if (entry.is_symlink())
 				{
 					std::string sha = get_file_sha1(entry.path());
 					store_file_as_blob(entry.path(), sha);
-					tree.add_entry("120000", entry.path(), sha);
+					tree.add_or_update_entry("120000", entry.path(), sha);
 				}
 			}
 		}
@@ -56,7 +56,7 @@ int add(int argc, char *argv[])
 		{
 			std::string sha = get_file_sha1(path);
 			store_file_as_blob(path, sha);
-			tree.add_entry("100644", path, sha);
+			tree.add_or_update_entry("100644", path, sha);
 		}
 	}
 

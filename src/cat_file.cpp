@@ -55,11 +55,11 @@ int cat_file(int argc, char *argv[])
 	const std::string dir_name = value.substr(0, 2);
 	const std::string blob_sha = value.substr(2);
 
-	std::string path = ".mygit/objects/" + dir_name + "/" + blob_sha;
+	std::string obj_path = ".mygit/objects/" + dir_name + "/" + blob_sha;
 
 	try
 	{
-		zstr::ifstream input(path, std::ofstream::binary);
+		zstr::ifstream input(obj_path, std::ofstream::binary);
 
 		if (!input.is_open())
 		{
@@ -81,12 +81,12 @@ int cat_file(int argc, char *argv[])
 			else if (type == "tree")
 			{
 				std::string mode;
-				std::string name;
+				std::string path;
 				std::string sha;
 
-				while (input >> mode >> name >> sha)
+				while (input >> mode >> path >> sha)
 				{
-					std::cout << mode << ' ' << type_map.at(mode) << ' ' << sha << '\t' << name << '\n';
+					std::cout << mode << ' ' << type_map.at(mode) << ' ' << sha << '\t' << path << '\n';
 				}
 			}
 		}

@@ -34,16 +34,16 @@ int ls_tree(int argc, char *argv[])
 
 	const std::string value = argv[name_only ? 2 : 1];
 
-	std::string path;
+	std::string obj_path;
 	if (value == "index")
 	{
-		path = ".mygit/index";
+		obj_path = ".mygit/index";
 	}
 	else if (value.size() == 40)
 	{
 		const std::string dir_name = value.substr(0, 2);
 		const std::string blob_sha = value.substr(2);
-		path = ".mygit/objects/" + dir_name + "/" + blob_sha;
+		obj_path = ".mygit/objects/" + dir_name + "/" + blob_sha;
 	}
 	else
 	{
@@ -53,16 +53,16 @@ int ls_tree(int argc, char *argv[])
 
 	try
 	{
-		TreeObject tree = TreeObject::read(path);
-		for (const auto &entry : tree.get_entries())
+		TreeObject tree = TreeObject::read(obj_path);
+		for (const auto &[path, entry] : tree.get_entries())
 		{
 			if (name_only)
 			{
-				std::cout << entry.name << '\n';
+				std::cout << path << '\n';
 			}
 			else
 			{
-				std::cout << type_map.at(entry.mode) << ' ' << entry.sha << '\t' << entry.name << '\n';
+				std::cout << type_map.at(entry.mode) << ' ' << entry.sha << '\t' << path << '\n';
 			}
 		}
 	}

@@ -1,52 +1,53 @@
 #pragma once
 
 #include <string>
-#include <set>
+#include <map>
 #include <vector>
 
 /**
  * @brief
- * Here's what a tree object file looks like (before Zlib compression):
+ * Here's what a tree object file looks like (before Zlib compression).
+ * Note that this is slightly different from the actual format used by Git,
+ * as it is modified for our use case.
  *
  * ```
  * tree <size>\0
- * <mode> <name>\0<20_byte_sha>
- * <mode> <name>\0<20_byte_sha>
+ * <mode> <path>\0<20_byte_sha>
+ * <mode> <path>\0<20_byte_sha>
  * ```
  *
  * (The above code block is formatted with newlines for readability, but the actual file doesn't contain newlines)
  *
  * - The file starts with `tree <size>\0`. This is the "object header", similar to what we saw with blob objects.
  *
- * - After the header, there are multiple entries. Each entry is of the form `<mode> <name>\0<sha>`.
+ * - After the header, there are multiple entries. Each entry is of the form `<mode> <path>\0<sha>`.
  *   - `<mode>` is the mode of the file/directory
- *   - `<name>` is the name of the file/directory
+ *   - `<path>` is the path of the file/directory
  *   - `\0` is a null byte
- *   - `<20_byte_sha>` is the 20-byte SHA-1 hash of the blob/tree (this is not in hexadecimal format)
+ *   - `<20_byte_sha>` is the 20-byte SHA-1 hash of the blob/tree (in hexadecimal format)
  */
 class TreeObject
 {
 public:
-	struct Entry
+	struct EntryData
 	{
-		const std::string mode;
-		const std::string name;
-		const std::string sha;
-		friend constexpr auto operator<=>(const Entry &lhs, const Entry &rhs) noexcept
+		std::string mode;
+		std::string sha;
+		friend constexpr auto operator<=>(const EntryData &lhs, const EntryData &rhs) noexcept
 		{
-			// Compare the entries based on their names, then SHA-1 hashes
-			return lhs.name <=> rhs.name == 0 ? lhs.sha <=> rhs.sha : lhs.name <=> rhs.name;
+			// Compare the entries based on their SHA-1 hashes
+			return lhs.sha <=> rhs.sha;
 		}
 	};
 
 	/**
-	 * @brief Adds a new entry to the tree object.
+	 * @brief Adds a new entry to the tree object or updates an existing entry.
 	 *
 	 * @param mode The mode of the file/directory
-	 * @param name The name of the file/directory
-	 * @param sha The SHA-1 hash of the file/directory (not in hexadecimal format)
+	 * @param path The path of the file/directory. Will be used as a key to look up the entry
+	 * @param sha The SHA-1 hash of the file/directory (in hexadecimal format)
 	 */
-	void add_entry(const std::string &mode, const std::string &name, const std::string &sha);
+	void add_or_update_entry(const std::string &mode, const std::string &path, const std::string &sha);
 
 	/**
 	 * @brief Creates a tree object from the given path.
@@ -62,7 +63,7 @@ public:
 	 */
 	std::vector<char> get_data() const;
 
-	std::set<Entry> get_entries() const;
+	std::map<std::string, EntryData> get_entries() const;
 
 	/**
 	 * @brief Reads a tree object from the disk.
@@ -75,5 +76,5 @@ public:
 	std::string write() const;
 
 private:
-	std::set<Entry> entries;
+	std::map<std::string, EntryData> entries;
 };
