@@ -74,7 +74,7 @@ int cat_file(int argc, char *argv[])
 
 		if (f_print)
 		{
-			if (type == "blob")
+			if (type == "blob" || type == "commit")
 			{
 				std::cout << input.rdbuf();
 			}

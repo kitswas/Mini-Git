@@ -17,7 +17,7 @@ int init(int argc, [[maybe_unused]] char *argv[])
 
 		if (std::ofstream headFile(".mygit/HEAD"); headFile.is_open())
 		{
-			headFile << "ref: refs/heads/main\n";
+			headFile << "\n";
 			headFile.close();
 		}
 		else

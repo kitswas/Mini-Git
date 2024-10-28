@@ -43,6 +43,10 @@ int main(int argc, char *argv[])
 	{
 		return add(argc, argv);
 	}
+	else if (command == "commit")
+	{
+		return commit(argc, argv);
+	}
 	else
 	{
 		std::cerr << "Unknown command " << command << '\n';
