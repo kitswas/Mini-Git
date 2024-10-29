@@ -1,4 +1,5 @@
 #include "commands.hpp"
+#include <filesystem>
 #include <iostream>
 #include <string>
 
@@ -23,7 +24,14 @@ int main(int argc, char *argv[])
 	{
 		return init(argc, argv);
 	}
-	else if (command == "hash-object")
+	else if (!std::filesystem::exists(".mygit"))
+	{
+		std::cerr << "Not a repository. Run `init` first\n"
+				  << "All commands must be run from the root of the repository\n";
+		return EXIT_FAILURE;
+	}
+
+	if (command == "hash-object")
 	{
 		return hash_object(argc, argv);
 	}
