@@ -28,6 +28,9 @@ long restore_tree(const std::string &tree_sha)
 					exit(EXIT_FAILURE);
 				}
 				std::ofstream output(path, std::ios::binary | std::ios::trunc);
+				// Skip the "blob <size>\0" header
+				std::string temp;
+				std::getline(input, temp, '\0');
 				output << input.rdbuf();
 				output.close();
 				++restored;
