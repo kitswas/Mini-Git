@@ -5,6 +5,7 @@ set(SOURCES
 	commit.cpp
 	hash_object.cpp
 	init.cpp
+	log.cpp
 	ls_tree.cpp
 	sha.cpp
 	tree.cpp

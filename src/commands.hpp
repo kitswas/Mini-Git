@@ -9,3 +9,4 @@ int write_tree(int argc, char *argv[]);
 int ls_tree(int argc, char *argv[]);
 int add(int argc, char *argv[]);
 int commit(int argc, char *argv[]);
+int log(int argc, char *argv[]);

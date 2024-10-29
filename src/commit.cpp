@@ -13,10 +13,8 @@ std::string CommitObject::write() const
 {
 	std::string commitData = "commit 0\n";
 	commitData += "tree " + tree_sha + '\n';
-	if (!parent.empty())
-	{
-		commitData += "parent " + parent + '\n';
-	}
+	commitData += "parent " + parent + '\n';
+
 	commitData += std::format("author {} <{}> {:%Y-%m-%d %H:%M} UTC\n",
 							  author.name,
 							  author.email,

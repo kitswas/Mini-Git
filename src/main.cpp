@@ -55,6 +55,10 @@ int main(int argc, char *argv[])
 	{
 		return commit(argc, argv);
 	}
+	else if (command == "log")
+	{
+		return log(argc, argv);
+	}
 	else
 	{
 		std::cerr << "Unknown command " << command << '\n';
