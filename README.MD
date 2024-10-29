@@ -7,8 +7,6 @@ For educational purposes.
 > [!CAUTION]
 > Warranty NOT included. Use at your own risk.
 
-## How it works
-
 ## Setting up your workspace
 
 This project has a [.editorconfig file](https://editorconfig.org/) to enforce project level coding standards.  

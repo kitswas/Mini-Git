@@ -5,26 +5,26 @@
 #include <vector>
 
 /**
- * @brief
+ * @brief Represents a tree object.
+ *
+ * @details
  * Here's what a tree object file looks like (before Zlib compression).
  * Note that this is slightly different from the actual format used by Git,
  * as it is modified for our use case.
  *
  * ```
  * tree <size>\0
- * <mode> <path>\0<20_byte_sha>
- * <mode> <path>\0<20_byte_sha>
+ * <mode> <path>\t<sha>
+ * <mode> <path>\t<sha>
  * ```
  *
- * (The above code block is formatted with newlines for readability, but the actual file doesn't contain newlines)
+ * - The file starts with `tree <size>`. This is the "object header", similar to what we saw with blob objects.
  *
- * - The file starts with `tree <size>\0`. This is the "object header", similar to what we saw with blob objects.
- *
- * - After the header, there are multiple entries. Each entry is of the form `<mode> <path>\0<sha>`.
+ * - After the header, there are multiple entries. Each entry is of the form `<mode> <path>\t<sha>`.
  *   - `<mode>` is the mode of the file/directory
  *   - `<path>` is the path of the file/directory
- *   - `\0` is a null byte
- *   - `<20_byte_sha>` is the 20-byte SHA-1 hash of the blob/tree (in hexadecimal format)
+ *   - `\t` is a tab character
+ *   - `<sha>` is the 40-char SHA-1 hash of the blob/tree (in hexadecimal format)
  */
 class TreeObject
 {
