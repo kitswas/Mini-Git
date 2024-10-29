@@ -59,6 +59,10 @@ int main(int argc, char *argv[])
 	{
 		return log(argc, argv);
 	}
+	else if (command == "checkout")
+	{
+		return checkout(argc, argv);
+	}
 	else
 	{
 		std::cerr << "Unknown command " << command << '\n';
