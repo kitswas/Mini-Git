@@ -61,7 +61,10 @@ int main(int argc, char *argv[])
 	}
 	else if (command == "checkout")
 	{
-		return checkout(argc, argv);
+		std::cout << "Are you sure? This will overwrite all committed files. (y/N): ";
+		int response = std::cin.get();
+		if (response == 'y' || response == 'Y')
+			return checkout(argc, argv);
 	}
 	else
 	{
