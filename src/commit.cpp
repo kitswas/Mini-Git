@@ -4,13 +4,9 @@
 #include "sha.hpp"
 #include <zstr.hpp> // ZLib C++ wrapper. See https://github.com/mateidavid/zstr
 
-CommitObject::CommitObject(const TreeObject &tree, const std::string &message, std::string parent = "")
-	: tree(tree),
-	  message(message),
-	  parent(parent)
+CommitObject::CommitObject(const std::string &tree_sha, const std::string &message, const std::string &parent) : tree_sha(tree_sha), message(message), parent(parent)
 {
 	timestamp = std::chrono::system_clock::now();
-	tree_sha = tree.write();
 }
 
 std::string CommitObject::write() const
@@ -73,8 +69,10 @@ int commit(int argc, char *argv[])
 
 	try
 	{
+		std::string parent = get_head();
 		TreeObject tree = TreeObject::read(".mygit/index");
-		CommitObject commit(tree, message, get_head());
+		const std::string tree_sha = tree.write();
+		CommitObject commit(tree_sha, message, parent);
 		std::string commit_sha = commit.write();
 		std::cout << "Committed with SHA-1: " << commit_sha << '\n';
 		write_head(commit_sha);

@@ -14,12 +14,11 @@ struct CommitObject
 {
 	AuthorInfo author;
 	std::chrono::system_clock::time_point timestamp;
-	TreeObject tree;
 	std::string tree_sha;
 	std::string message;
 	std::string parent;
 
-	CommitObject(const TreeObject &tree, const std::string &message, std::string parent);
+	CommitObject(const std::string &tree_sha, const std::string &message, const std::string &parent);
 
 	std::string write() const;
 };
