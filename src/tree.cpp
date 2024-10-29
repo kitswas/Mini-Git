@@ -54,7 +54,7 @@ std::vector<char> TreeObject::get_data() const
 	result.reserve(size);
 	std::string header = std::format("tree {}", size);
 	result.insert(result.begin(), header.begin(), header.end());
-	result.push_back(' ');
+	result.push_back('\n');
 	for (const auto &[path, entry] : entries)
 	{
 		result.insert(result.end(), entry.mode.begin(), entry.mode.end());
