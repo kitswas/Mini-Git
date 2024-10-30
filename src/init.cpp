@@ -26,7 +26,7 @@ int init(int argc, [[maybe_unused]] char *argv[])
 			return EXIT_FAILURE;
 		}
 
-		std::cout << "Initialized git directory\n";
+		std::cout << "Initialized mygit directory\n";
 	}
 	catch (const std::filesystem::filesystem_error &e)
 	{
