@@ -64,6 +64,7 @@ std::vector<char> TreeObject::get_data() const
 		result.insert(result.end(), entry.sha.begin(), entry.sha.end());
 		result.push_back('\n');
 	}
+	result.shrink_to_fit(); // !Important to prevent junk data at the end of the vector
 	return result;
 }
 
