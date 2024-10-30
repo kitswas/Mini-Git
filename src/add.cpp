@@ -7,6 +7,12 @@
 #include "tree.hpp"
 #include <zstr.hpp> // ZLib C++ wrapper. See https://github.com/mateidavid/zstr
 
+bool is_same_or_subpath(const std::filesystem::path &path, const std::filesystem::path &base)
+{
+	auto rel = std::filesystem::relative(path, base);
+	return !rel.empty() && rel.native()[0] != '.';
+}
+
 int add(int argc, char *argv[])
 {
 	if (argc < 2)
@@ -34,11 +40,18 @@ int add(int argc, char *argv[])
 	for (int i = 1; i < argc; i++)
 	{
 		std::filesystem::path path = argv[i];
-
 		if (std::filesystem::is_directory(path))
 		{
 			for (const auto &entry : std::filesystem::recursive_directory_iterator(path))
 			{
+				// Skip .mygit directory and its contents
+				if (is_same_or_subpath(entry.path(), ".mygit") ||
+					is_same_or_subpath(entry.path(), ".git")) // for coexistence with git
+				{
+					// std::clog << "Skipping " << entry.path().relative_path().generic_string() << std::endl;
+					continue;
+				}
+
 				if (entry.is_regular_file())
 				{
 					std::string sha = get_file_sha1(entry.path());
