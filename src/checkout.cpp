@@ -15,7 +15,7 @@ long restore_tree(const std::string &tree_sha)
 		{
 			if (entry.mode == "040000")
 			{
-				std::filesystem::create_directory(path);
+				std::filesystem::create_directories(path);
 				restored += restore_tree(entry.sha);
 			}
 			else
@@ -27,6 +27,7 @@ long restore_tree(const std::string &tree_sha)
 					std::cerr << "Failed to open blob object file " << blob_path << " for reading\n";
 					exit(EXIT_FAILURE);
 				}
+				std::filesystem::create_directories(std::filesystem::path(path).parent_path());
 				std::ofstream output(path, std::ios::binary | std::ios::trunc);
 				// Skip the "blob <size>\0" header
 				std::string temp;
