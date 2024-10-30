@@ -62,7 +62,7 @@ int ls_tree(int argc, char *argv[])
 			}
 			else
 			{
-				std::cout << type_map.at(entry.mode) << ' ' << entry.sha << '\t' << path << '\n';
+				std::cout << entry.mode << ' ' << type_map.at(entry.mode) << ' ' << entry.sha << '\t' << path << '\n';
 			}
 		}
 	}
