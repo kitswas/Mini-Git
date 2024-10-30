@@ -20,55 +20,64 @@ int main(int argc, char *argv[])
 	argc--;
 	argv++;
 
-	if (command == "init")
+	try
 	{
-		return init(argc, argv);
-	}
-	else if (!std::filesystem::exists(".mygit"))
-	{
-		std::cerr << "Not a repository. Run `init` first\n"
-				  << "All commands must be run from the root of the repository\n";
-		return EXIT_FAILURE;
-	}
+		if (command == "init")
+		{
+			return init(argc, argv);
+		}
+		else if (!std::filesystem::exists(".mygit"))
+		{
+			std::cerr << "Not a repository. Run `init` first\n"
+					  << "All commands must be run from the root of the repository\n";
+			return EXIT_FAILURE;
+		}
 
-	if (command == "hash-object")
-	{
-		return hash_object(argc, argv);
+		if (command == "hash-object")
+		{
+			return hash_object(argc, argv);
+		}
+		else if (command == "cat-file")
+		{
+			return cat_file(argc, argv);
+		}
+		else if (command == "ls-tree")
+		{
+			return ls_tree(argc, argv);
+		}
+		else if (command == "write-tree")
+		{
+			return write_tree(argc, argv);
+		}
+		else if (command == "add")
+		{
+			return add(argc, argv);
+		}
+		else if (command == "commit")
+		{
+			return commit(argc, argv);
+		}
+		else if (command == "log")
+		{
+			return log(argc, argv);
+		}
+		else if (command == "checkout")
+		{
+			std::cout << "Are you sure? This will overwrite all committed files. (y/N): ";
+			int response = std::cin.get();
+			if (response == 'y' || response == 'Y')
+				return checkout(argc, argv);
+		}
+		else
+		{
+			std::cerr << "Unknown command " << command << '\n';
+			return EXIT_FAILURE;
+		}
 	}
-	else if (command == "cat-file")
+	catch (const std::exception &e)
 	{
-		return cat_file(argc, argv);
-	}
-	else if (command == "ls-tree")
-	{
-		return ls_tree(argc, argv);
-	}
-	else if (command == "write-tree")
-	{
-		return write_tree(argc, argv);
-	}
-	else if (command == "add")
-	{
-		return add(argc, argv);
-	}
-	else if (command == "commit")
-	{
-		return commit(argc, argv);
-	}
-	else if (command == "log")
-	{
-		return log(argc, argv);
-	}
-	else if (command == "checkout")
-	{
-		std::cout << "Are you sure? This will overwrite all committed files. (y/N): ";
-		int response = std::cin.get();
-		if (response == 'y' || response == 'Y')
-			return checkout(argc, argv);
-	}
-	else
-	{
-		std::cerr << "Unknown command " << command << '\n';
+		std::cerr << "An error occurred: ";
+		std::cerr << e.what() << '\n';
 		return EXIT_FAILURE;
 	}
 
