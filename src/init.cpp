@@ -11,6 +11,11 @@ int init(int argc, [[maybe_unused]] char *argv[])
 	}
 	try
 	{
+		if (std::filesystem::exists(".mygit"))
+		{
+			std::cerr << "Repository already exists\n";
+			return EXIT_SUCCESS;
+		}
 		std::filesystem::create_directory(".mygit");
 		std::filesystem::create_directory(".mygit/objects");
 		std::filesystem::create_directory(".mygit/refs");
