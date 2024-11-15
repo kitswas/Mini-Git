@@ -27,7 +27,8 @@ long restore_tree(const std::string &tree_sha)
 					std::cerr << "Failed to open blob object file " << blob_path << " for reading\n";
 					exit(EXIT_FAILURE);
 				}
-				std::filesystem::create_directories(std::filesystem::path(path).parent_path());
+				if (!std::filesystem::path(path).parent_path().empty())
+					std::filesystem::create_directories(std::filesystem::path(path).parent_path());
 				std::ofstream output(path, std::ios::binary | std::ios::trunc);
 				// Skip the "blob <size>\0" header
 				std::string temp;
