@@ -1,7 +1,7 @@
 # Mini Git
 
-A baby version of Git.  
-This project was created for an assignment in a graduate course on Operating Systems.  
+A baby version of Git. [View Source.](https://github.com/kitswas/Mini-Git)  
+This was made for an assignment in a graduate course on Operating Systems.  
 For educational purposes.
 
 > [!CAUTION]
