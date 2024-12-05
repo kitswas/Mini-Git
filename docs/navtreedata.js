@@ -27,7 +27,9 @@ var NAVTREE =
   [ "Mini Git", "index.html", [
     [ "Setting up your workspace", "index.html#setting-up-your-workspace", null ],
     [ "Installing dependencies", "index.html#installing-dependencies", null ],
-    [ "How to run", "index.html#how-to-run", null ],
+    [ "How to run", "index.html#how-to-run", [
+      [ "Supported Commands", "index.html#supported-commands", null ]
+    ] ],
     [ "Generating and Viewing Documentation", "index.html#generating-and-viewing-documentation", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],

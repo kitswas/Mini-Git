@@ -140,7 +140,54 @@ How to run</h1>
 <div class="fragment"><div class="line">cmake -B build</div>
 <div class="line">cmake --build build --config Release</div>
 <div class="line">./build/mygit</div>
-</div><!-- fragment --><h1><a class="anchor" id="generating-and-viewing-documentation"></a>
+</div><!-- fragment --><h2><a class="anchor" id="supported-commands"></a>
+Supported Commands</h2>
+<ol type="1">
+<li><code>./mygit init</code><ul>
+<li>Initializes a new repository by creating a directory called .mygit.</li>
+</ul>
+</li>
+<li><code>./mygit hash-object [-w] test.txt</code><ul>
+<li>This command calculates the SHA-1 hash of a file, compresses it, and stores it as a blob object in the repository when the -w option is used. If -w is not included, it simply prints the file's SHA-1 hash.</li>
+</ul>
+</li>
+<li><code>./mygit cat-file &lt;flag&gt; &lt;file_sha&gt;</code><ul>
+<li>This command reads and displays the content or metadata of a file stored as an object using its SHA-1 hash.</li>
+<li>Flags:<ul>
+<li><code>-p</code> prints the content of the file.</li>
+<li><code>-t</code> prints the type of the object.</li>
+<li><code>-s</code> prints the size of the object.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>./mygit write-tree</code><ul>
+<li>This command writes the current directory structure to a newly-created tree object.</li>
+</ul>
+</li>
+<li><code>./mygit ls-tree [--name-only] &lt;tree_sha&gt;</code><ul>
+<li>This command reads and displays the content of a tree object using its SHA-1 hash.</li>
+<li>The <code>--name-only</code> flag prints only the names of the files in the tree.</li>
+</ul>
+</li>
+<li><code>./mygit add &lt;path&gt;</code><ul>
+<li>This command adds files and directories to the staging area.</li>
+</ul>
+</li>
+<li><code>./mygit commit -m "commit message"</code><ul>
+<li>This command creates a new commit object from the current staging area and writes it to the repository.</li>
+</ul>
+</li>
+<li><code>./mygit log</code><ul>
+<li>This command displays the commit history of the repository. Branches are not supported. So, the history is linear.</li>
+</ul>
+</li>
+<li><code>./mygit checkout &lt;commit_sha&gt;</code><ul>
+<li>This command checks out a specific commit, restoring the state of the project as it was at that commit.</li>
+</ul>
+</li>
+</ol>
+<h1><a class="anchor" id="generating-and-viewing-documentation"></a>
 Generating and Viewing Documentation</h1>
 <p>This project uses <a href="https://www.doxygen.nl/index.html">Doxygen</a> to generate documentation. <br  />
  If Doxygen is available on your system, <br  />

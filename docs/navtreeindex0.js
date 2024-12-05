@@ -53,6 +53,7 @@ var NAVTREEINDEX0 =
 "index.html#how-to-run":[2],
 "index.html#installing-dependencies":[1],
 "index.html#setting-up-your-workspace":[0],
+"index.html#supported-commands":[2,0],
 "init_8cpp.html":[5,0,0,8],
 "init_8cpp.html#a36fd5ba3a13672607f2159d56a9f9bf2":[5,0,0,8,0],
 "log_8cpp.html":[5,0,0,9],
