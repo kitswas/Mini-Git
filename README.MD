@@ -35,6 +35,33 @@ cmake --build build --config Release
 ./build/mygit
 ```
 
+### Supported Commands
+
+1. `./mygit init`
+    - Initializes a new repository by creating a directory called .mygit.
+2. `./mygit hash-object [-w] test.txt`
+    - This command calculates the SHA-1 hash of a file, compresses it, and stores it as a blob object in the repository when the -w option is used. If -w is not included, it simply prints the file's SHA-1 hash.
+3. `./mygit cat-file <flag> <file_sha>`
+    - This command reads and displays the content or metadata of a file stored as an object using its SHA-1 hash.
+    - Flags:
+      - `-p` prints the content of the file.
+      - `-t` prints the type of the object.
+      - `-s` prints the size of the object.
+4. `./mygit write-tree`
+    - This command writes the current directory structure to a newly-created tree object.
+5. `./mygit ls-tree [--name-only] <tree_sha>`
+    - This command reads and displays the content of a tree object using its SHA-1 hash.
+    - The `--name-only` flag prints only the names of the files in the tree.
+6. `./mygit add <path>`
+    - This command adds files and directories to the staging area.
+7. `./mygit commit -m "commit message"`
+    - This command creates a new commit object from the current staging area and writes it to the repository.
+8. `./mygit log`
+    - This command displays the commit history of the repository. Branches are not supported. So, the history is linear.
+9. `./mygit checkout <commit_sha>`
+    - This command checks out a specific commit, restoring the state of the project as it was at that
+commit.
+
 ## Generating and Viewing Documentation
 
 This project uses [Doxygen](https://www.doxygen.nl/index.html) to generate documentation.  
